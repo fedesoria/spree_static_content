@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="alpha ten columns">
+    <%= f.field_container :title do %>
+      <%= f.label :title %> <span class="required">*</span><br />
+      <%= f.text_field :title, :class => 'fullwidth title' %>
+      <%= f.error_message_on :title %>
+    <% end %>
+
+    <%= f.field_container :slug do %>
+      <%= f.label :slug %> <span class="required">*</span><br />
+      <%= f.text_field :slug, :class => 'fullwidth title' %>
+      <%= f.error_message_on :slug %>
+    <% end %>
+
+    <%= f.field_container :body do %>
+      <%= f.label :body %><span class="required">*</span><br />
+      <%= f.text_area :body, {:class => 'fullwidth'} %>
+      <%= f.error_message_on :body %>
+    <% end %>
+
+          <% @page.attachments.each do |atta| %>
+            <span id="<%= atta.id %>">
+            <% if atta.file_content_type =~ /image.*/ %>
+              <%= image_tag atta.file.url(:thumb) %>
+            <% else %>
+              <%= link_to atta.file_file_name, atta.file.url %>
+            <% end %>
+            <%= link_to image_tag('/assets/admin/cross.png'), admin_page_delete_attachment_path(@page,atta),
+                  :confirm => 'Are you sure?', :method => :delete, :remote => true %>
+            <%# link_to_function image_tag('admin/cross.png'), "remove_fields(this)" %>
+            </span>
+        <% end %>
+      <span id="attachments">
+
+      </span>
+      <br>
+      <a href="#" id="agregar_adjunto" class="page"><img src="/assets/admin/add_16.png" alt="Add File">Add File</a>
+      <br><br>
+
+
+       <script type="text/x-handlebars-template" id="attachmentTemplate">
+          <span class="fields">
+            <div class="field file optional">
+              <label class="file optional" for="{{clase}}_attachments_attributes_{{numero}}_file">
+               File
+              </label>
+              <input class="file optional" id="{{clase}}_attachments_attributes_{{numero}}_file" name="{{clase}}[attachments_attributes][{{numero}}][file]" type="file">
+            </div>
+          </span>
+        </script>
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+      var attachment_numero = $("#attachments input.hidden").size();
+
+      var source = $("#attachmentTemplate").html();
+      if (source) {
+        var template = Handlebars.compile(source);
+      };
+
+      $('#agregar_adjunto').click(function(e) {
+        var clase = $(this).attr('class');
+        e.preventDefault();
+        $("#attachments").append(template({ "numero": attachment_numero, "clase": clase }));
+        attachment_numero++;
+      });
+
+      $(".collections .open").click(function(e) {
+        e.preventDefault();
+        $("ul.sub").hide();
+        $(this).next().next().slideDown();
+      });
+
+      $("#pictures a").hover(
+        function() {
+          $(this).find('div').fadeIn('fast');
+        },
+        function() {
+          $(this).find('div').fadeOut();
+        }
+      );
+
+
+
+
+    });
+
+    function remove_fields(link) {
+        $(link).prev("input[type=hidden]").val("1");
+        $(link).closest(".fields").hide();
+    };
+    </script>
+
+
+  </div>
+  
+  <div class="omega six columns">
+    <%= f.field_container :meta_title do %>
+      <%= f.label :meta_title %><br />
+      <%= f.text_field :meta_title, :class => 'fullwidth title' %>
+      <%= f.error_message_on :meta_title %>
+    <% end %>
+
+    <%= f.field_container :meta_keywords do %>
+      <%= f.label :meta_keywords %><br />
+      <%= f.text_field :meta_keywords, :class => 'fullwidth title' %>
+      <%= f.error_message_on :meta_keywords %>
+    <% end %>
+
+    <%= f.field_container :meta_description do %>
+      <%= f.label :meta_description %><br />
+      <%= f.text_field :meta_description, :class => 'fullwidth title' %>
+      <%= f.error_message_on :meta_description %>
+    <% end %>
+    
+    <%= f.field_container :layout do %>
+      <%= f.label :layout %><br />
+      <%= f.text_field :layout, :class => 'fullwidth title' %>
+    <% end %>
+
+    <%= f.field_container :foreign_link do %>
+      <%= f.label :foreign_link %><br />
+      <%= f.text_field :foreign_link, :class => 'fullwidth title' %>
+    <% end %>
+
+    <%= f.field_container :position do %>
+      <%= f.label :position %><br />
+      <%= f.number_field :position, :min => 0 %>
+    <% end %>
+
+    <ul id="static_page_options">
+      <li>
+        <%= f.check_box :show_in_sidebar %>
+        <%= f.label :show_in_sidebar %>
+      </li>
+      <li>
+        <%= f.check_box :show_in_header %>
+        <%= f.label :show_in_header %>
+      </li>
+      <li>
+        <%= f.check_box :show_in_footer %>
+        <%= f.label :show_in_footer %>
+      </li>
+      <li>
+        <%= f.check_box :visible %>
+        <%= f.label :visible %>
+      </li>
+      <li>
+        <%= f.check_box :render_layout_as_partial %>
+        <%= f.label :render_layout_as_partial %>
+      </li>
+    </ul>
+
+  </div>
+</div>
