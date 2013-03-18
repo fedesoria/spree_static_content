@@ -3,7 +3,7 @@ version = File.read(File.expand_path("../VERSION", __FILE__)).strip
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_static_content'
-  s.version     = version
+  s.version     = "1.1.2"
   s.summary     = 'Extention to manage the static pages for your Spree shop.'
   s.required_ruby_version = '>= 1.8.7'
 
