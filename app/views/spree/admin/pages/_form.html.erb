@@ -19,7 +19,9 @@
     <% end %>
 <div id="image_attachments">
           <% @page.attachments.each do |atta| %>
-            <span id="<%= atta.id %>">
+            <%= content_tag_for :span, atta do %>
+
+
             <% if atta.file_content_type =~ /image.*/ %>
               <%= image_tag atta.file.url(:thumb) %>
             <% else %>
@@ -28,7 +30,7 @@
             <%= link_to image_tag('/assets/admin/cross.png'), admin_page_delete_attachment_path(@page,atta),
                   :confirm => 'Are you sure?', :method => :delete, :remote => true %>
             <%# link_to_function image_tag('admin/cross.png'), "remove_fields(this)" %>
-            </span>
+              <% end %>
         <% end %>
         </div>
       <span id="attachments">
