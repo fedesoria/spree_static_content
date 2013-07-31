@@ -17,7 +17,7 @@
       <%= f.text_area :body, {:class => 'fullwidth'} %>
       <%= f.error_message_on :body %>
     <% end %>
-
+<div id="image_attachments">
           <% @page.attachments.each do |atta| %>
             <span id="<%= atta.id %>">
             <% if atta.file_content_type =~ /image.*/ %>
@@ -30,6 +30,7 @@
             <%# link_to_function image_tag('admin/cross.png'), "remove_fields(this)" %>
             </span>
         <% end %>
+        </div>
       <span id="attachments">
 
       </span>
